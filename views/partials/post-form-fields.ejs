@@ -1,0 +1,18 @@
+<div class="field-row">
+  <div class="field grow">
+    <label for="title">Title</label>
+    <input type="text" id="title" name="title" maxlength="255" required value="<%= form.title %>">
+  </div>
+  <div class="field">
+    <label for="category">Category</label>
+    <select id="category" name="category">
+      <% categories.forEach(function (c) { %>
+        <option value="<%= c %>" <%= form.category === c ? "selected" : "" %>><%= c %></option>
+      <% }) %>
+    </select>
+  </div>
+</div>
+<div class="field">
+  <label for="body">Post</label>
+  <textarea id="body" name="body" rows="7" required><%= form.body %></textarea>
+</div>

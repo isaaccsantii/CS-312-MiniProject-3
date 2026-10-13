@@ -1,0 +1,21 @@
+<%- include("partials/header", { title: "Sign in" }) %>
+
+<section class="card auth">
+  <h2>Sign in</h2>
+  <p class="hint">Welcome back. Enter your user ID and password.</p>
+  <%- include("partials/errors", { errors: errors }) %>
+  <form action="/signin" method="POST">
+    <div class="field">
+      <label for="user_id">User ID</label>
+      <input type="text" id="user_id" name="user_id" autocomplete="username" required autofocus value="<%= form.user_id %>">
+    </div>
+    <div class="field">
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" autocomplete="current-password" required>
+    </div>
+    <button type="submit" class="btn btn-block">Sign in</button>
+  </form>
+  <p class="switch">New here? <a href="/signup">Create an account</a></p>
+</section>
+
+<%- include("partials/footer") %>

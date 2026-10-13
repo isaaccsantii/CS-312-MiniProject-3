@@ -1,0 +1,15 @@
+<%- include("partials/header", { title: "Edit post" }) %>
+
+<section class="card">
+  <h2>Edit post</h2>
+  <%- include("partials/errors", { errors: errors }) %>
+  <form action="/posts/<%= blog.blog_id %>/edit" method="POST">
+    <%- include("partials/post-form-fields", { form: blog, categories: categories }) %>
+    <div class="actions">
+      <button type="submit" class="btn">Save changes</button>
+      <a class="btn btn-outline" href="/">Cancel</a>
+    </div>
+  </form>
+</section>
+
+<%- include("partials/footer") %>

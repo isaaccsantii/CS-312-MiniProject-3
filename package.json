@@ -1,0 +1,26 @@
+{
+  "name": "cs-312-miniproject-3",
+  "version": "1.0.0",
+  "description": "Blog web application built with Node.js, Express.js, EJS, and PostgreSQL, with user accounts and authorization.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "db:setup": "node db/setup-db.js"
+  },
+  "keywords": [
+    "express",
+    "ejs",
+    "blog",
+    "nodejs",
+    "postgresql"
+  ],
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "dotenv": "^18.0.7",
+    "ejs": "^7.0.1",
+    "express": "^5.3.0",
+    "express-session": "^1.19.0",
+    "pg": "^8.23.1"
+  }
+}

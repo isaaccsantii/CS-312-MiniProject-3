@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title><%= typeof title !== "undefined" ? title + " | " : "" %>My Blog</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="/">My<span>Blog</span></a>
+      <nav>
+        <a href="/">Feed</a>
+        <% if (currentUser) { %>
+          <a href="/account" class="nav-user" title="Account settings">
+            <span class="avatar" aria-hidden="true"><%= currentUser.name.charAt(0).toUpperCase() %></span>
+            <span class="nav-label"><%= currentUser.name %></span>
+          </a>
+          <form action="/signout" method="POST" class="inline">
+            <button type="submit" class="btn btn-small btn-outline">Sign out</button>
+          </form>
+        <% } else { %>
+          <a href="/signin">Sign in</a>
+          <a href="/signup" class="btn btn-small">Sign up</a>
+        <% } %>
+      </nav>
+    </div>
+  </header>
+  <main class="container">
+    <% if (flash) { %>
+      <div class="flash flash-<%= flash.type %>" role="status"><%= flash.message %></div>
+    <% } %>

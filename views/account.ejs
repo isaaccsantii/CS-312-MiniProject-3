@@ -1,0 +1,60 @@
+<%- include("partials/header", { title: "Account" }) %>
+
+<section class="card">
+  <div class="profile">
+    <span class="avatar avatar-lg" aria-hidden="true"><%= user.name.charAt(0).toUpperCase() %></span>
+    <div>
+      <h2><%= user.name %></h2>
+      <p class="hint">@<%= user.user_id %> &middot; <%= postCount %> post<%= postCount === 1 ? "" : "s" %>
+        &middot; member since <%= user.created_at.toLocaleDateString("en-US", { dateStyle: "medium" }) %></p>
+    </div>
+  </div>
+</section>
+
+<section class="card">
+  <h2>Account details</h2>
+  <p class="hint">Change your user ID or display name. Your existing posts move with you.</p>
+  <%- include("partials/errors", { errors: profileErrors }) %>
+  <form action="/account/profile" method="POST">
+    <div class="field-row">
+      <div class="field">
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" maxlength="255" required value="<%= form.name %>">
+      </div>
+      <div class="field">
+        <label for="user_id">User ID</label>
+        <input type="text" id="user_id" name="user_id" minlength="3" maxlength="30" pattern="[A-Za-z0-9_.\-]{3,30}"
+               title="3-30 characters: letters, numbers, dot, dash or underscore" required value="<%= form.user_id %>">
+      </div>
+    </div>
+    <div class="field">
+      <label for="profile_current_password">Current password (to confirm)</label>
+      <input type="password" id="profile_current_password" name="current_password" autocomplete="current-password" required>
+    </div>
+    <button type="submit" class="btn">Save details</button>
+  </form>
+</section>
+
+<section class="card">
+  <h2>Change password</h2>
+  <%- include("partials/errors", { errors: passwordErrors }) %>
+  <form action="/account/password" method="POST">
+    <div class="field">
+      <label for="current_password">Current password</label>
+      <input type="password" id="current_password" name="current_password" autocomplete="current-password" required>
+    </div>
+    <div class="field-row">
+      <div class="field">
+        <label for="new_password">New password</label>
+        <input type="password" id="new_password" name="new_password" minlength="6" maxlength="72" autocomplete="new-password" required>
+      </div>
+      <div class="field">
+        <label for="confirm_password">Confirm new password</label>
+        <input type="password" id="confirm_password" name="confirm_password" minlength="6" maxlength="72" autocomplete="new-password" required>
+      </div>
+    </div>
+    <button type="submit" class="btn">Change password</button>
+  </form>
+</section>
+
+<%- include("partials/footer") %>

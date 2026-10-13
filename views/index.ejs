@@ -1,0 +1,79 @@
+<%- include("partials/header", { title: "Feed" }) %>
+
+<% if (currentUser) { %>
+  <section class="card" id="new-post">
+    <h2>Write a new post</h2>
+    <p class="hint">Posting as <strong><%= currentUser.name %></strong> (@<%= currentUser.user_id %>)</p>
+    <%- include("partials/errors", { errors: errors }) %>
+    <form action="/posts" method="POST">
+      <%- include("partials/post-form-fields", { form: form, categories: categories }) %>
+      <button type="submit" class="btn">Publish post</button>
+    </form>
+  </section>
+<% } else { %>
+  <section class="card cta">
+    <div>
+      <h2>Share your own posts</h2>
+      <p class="hint">Sign in to write posts and to edit or delete the ones you've created.</p>
+    </div>
+    <div class="actions">
+      <a class="btn" href="/signin">Sign in</a>
+      <a class="btn btn-outline" href="/signup">Create account</a>
+    </div>
+  </section>
+<% } %>
+
+<section class="posts">
+  <div class="posts-head">
+    <h2>Blog feed <span class="count"><%= blogs.length %><%= selected !== "All" ? " of " + totalBlogs : "" %></span></h2>
+
+    <div class="filters" aria-label="Filter posts by category">
+      <a href="/" class="chip <%= selected === 'All' ? 'active' : '' %>">All</a>
+      <% categories.forEach(function (c) { %>
+        <a href="/?category=<%= encodeURIComponent(c) %>" class="chip <%= selected === c ? 'active' : '' %>"><%= c %></a>
+      <% }) %>
+    </div>
+  </div>
+
+  <% if (blogs.length === 0) { %>
+    <div class="empty">
+      <% if (selected !== "All") { %>
+        No posts in <strong><%= selected %></strong> yet. <a href="/">Show all posts</a>.
+      <% } else { %>
+        No posts yet.
+      <% } %>
+    </div>
+  <% } %>
+
+  <% blogs.forEach(function (blog) {
+       var mine = currentUser && currentUser.user_id === blog.creator_user_id; %>
+    <article class="card post <%= mine ? 'mine' : '' %>">
+      <div class="post-top">
+        <span class="badge"><%= blog.category %></span>
+        <time datetime="<%= blog.date_created.toISOString() %>">
+          <%= blog.date_created.toLocaleString("en-US", { dateStyle: "medium", timeStyle: "short" }) %>
+        </time>
+      </div>
+      <h3><%= blog.title %></h3>
+      <p class="meta">
+        By <strong><%= blog.creator_name %></strong> <span class="handle">@<%= blog.creator_user_id %></span>
+        <% if (mine) { %><span class="you">You</span><% } %>
+        <% if (blog.date_updated) { %>
+          &middot; edited <%= blog.date_updated.toLocaleString("en-US", { dateStyle: "medium", timeStyle: "short" }) %>
+        <% } %>
+      </p>
+      <p class="content"><%= blog.body %></p>
+      <% if (mine) { %>
+        <div class="actions">
+          <a class="btn btn-outline" href="/posts/<%= blog.blog_id %>/edit">Edit</a>
+          <form action="/posts/<%= blog.blog_id %>/delete" method="POST"
+                onsubmit="return confirm('Delete this post permanently?');">
+            <button type="submit" class="btn btn-danger">Delete</button>
+          </form>
+        </div>
+      <% } %>
+    </article>
+  <% }) %>
+</section>
+
+<%- include("partials/footer") %>
